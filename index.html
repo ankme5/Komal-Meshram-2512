@@ -8,6 +8,13 @@
 <meta property="og:title" content="मंगल परिणय · Komal & Yash">
 <meta property="og:description" content="You are warmly invited · 26 December 2026 · Osho Bhavan, Gudhiyari, Raipur (C.G.)">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://komal-weds-yash.netlify.app/thumbnail.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Invitation: Komal & Yash, Saturday 26 December 2026">
+<meta property="og:url" content="https://komal-weds-yash.netlify.app/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://komal-weds-yash.netlify.app/thumbnail.jpg">
 <meta name="format-detection" content="telephone=no, date=no, address=no">
 <title>मंगल परिणय · कोमल संग यश</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -417,6 +424,32 @@ footer{ padding:34px 20px calc(34px + env(safe-area-inset-bottom,0px)); text-ali
 footer b{ font-family:var(--f-script); font-weight:400; font-size:1.6rem; color:var(--gold); display:block; line-height:1.2; }
 html[data-lang="hi"] footer b{ font-size:1.3rem; }
 
+/* ---------- Music button ---------- */
+.music{
+  position:fixed; z-index:120; right:16px; bottom:calc(env(safe-area-inset-bottom,0px) + 16px);
+  width:52px; height:52px; border-radius:50%; border:1px solid var(--em-line); cursor:pointer;
+  background:rgba(26,8,22,.7); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+  box-shadow:0 12px 30px -10px rgba(0,0,0,.6); color:var(--gold-hi);
+  display:grid; place-items:center; opacity:0; transform:scale(.6); pointer-events:none;
+  transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1.3);
+}
+body.live .music{ opacity:1; transform:none; pointer-events:auto; }
+.music:active{ transform:scale(.92); }
+.music .bars{ display:flex; align-items:flex-end; gap:3px; height:18px; }
+.music .bars i{ width:3px; height:100%; border-radius:2px; background:var(--foil); transform-origin:bottom; transform:scaleY(.25); }
+.music.on .bars i{ animation:eq 1.1s ease-in-out infinite alternate; }
+.music.on .bars i:nth-child(2){ animation-duration:.8s; animation-delay:-.3s; }
+.music.on .bars i:nth-child(3){ animation-duration:1.3s; animation-delay:-.6s; }
+.music.on .bars i:nth-child(4){ animation-duration:.95s; animation-delay:-.2s; }
+@keyframes eq{ from{ transform:scaleY(.2); } to{ transform:scaleY(1); } }
+.music::after{
+  content:""; position:absolute; width:28px; height:1.5px; background:var(--gold-hi); border-radius:2px;
+  transform:rotate(-45deg); opacity:0; transition:opacity .3s;
+}
+.music:not(.on)::after{ opacity:.9; }
+.music::before{ content:""; position:absolute; inset:-6px; border-radius:50%; border:1px solid rgba(248,225,211,.35); opacity:0; }
+.music.on::before{ animation:ripple 2.6s ease-out infinite; }
+
 /* ---------- Mobile tuning ---------- */
 @media (max-width:380px){
   .sec{ padding-left:16px; padding-right:16px; }
@@ -451,6 +484,7 @@ html[data-lang="hi"] footer b{ font-size:1.3rem; }
   main{ max-width:460px; margin:0 auto; box-shadow:0 0 0 1px rgba(216,168,145,.22),0 40px 120px rgba(0,0,0,.65); }
   .cover{ left:50%; right:auto; width:460px; margin-left:-230px; box-shadow:0 0 0 1px rgba(216,168,145,.22),0 40px 120px rgba(0,0,0,.65); }
   .lang{ right:calc(50% - 230px + 12px); }
+  .music{ right:calc(50% - 230px + 16px); }
   .hero{ min-height:min(100svh,900px); }
 }
 
@@ -543,6 +577,11 @@ body.swap [data-t]{ opacity:0; }
   <button type="button" data-l="en" aria-pressed="false">EN</button>
   <button type="button" data-l="hi" aria-pressed="true">हिंदी</button>
 </nav>
+
+<audio id="bgm" src="music.mp3" preload="auto" loop playsinline></audio>
+<button class="music" id="musicBtn" type="button" aria-pressed="false" aria-label="संगीत चलाएँ">
+  <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+</button>
 
 <!-- ============ COVER ============ -->
 <div class="cover" id="cover">
@@ -813,7 +852,7 @@ var T={
   directions:"नक्शे में रास्ता देखें",
   cd_label:"शुभ घड़ी में शेष", cd_d:"दिन", cd_h:"घंटे", cd_m:"मिनट", cd_s:"सेकंड",
   cd_when:"26.12.2026, संध्या 7 बजे", cd_today:"आज शुभ दिन है", cd_after:"नवदम्पति को मंगलकामनाएँ",
-  vineet:"विनीत :", fam1:"आयु. मनोरमा-सुमन्ना मेश्राम", fam2:"एवं समस्त मेश्राम परिवार"
+  music_on:"संगीत रोकें", music_off:"संगीत चलाएँ", vineet:"विनीत :", fam1:"आयु. मनोरमा-सुमन्ना मेश्राम", fam2:"एवं समस्त मेश्राम परिवार"
  },
  en:{
   doc_title:"Mangal Parinay · Komal & Yash",
@@ -840,7 +879,7 @@ var T={
   directions:"Get directions",
   cd_label:"Counting down to the wedding", cd_d:"Days", cd_h:"Hours", cd_m:"Minutes", cd_s:"Seconds",
   cd_when:"26.12.2026, 7 PM", cd_today:"Today is the day", cd_after:"Heartfelt blessings to the newlyweds",
-  vineet:"With humble regards,", fam1:"Mrs. Manorama–Sumanna Meshram", fam2:"and the entire Meshram family"
+  music_on:"Pause music", music_off:"Play music", vineet:"With humble regards,", fam1:"Mrs. Manorama–Sumanna Meshram", fam2:"and the entire Meshram family"
  }
 };
 var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -869,7 +908,7 @@ function apply(l){
   document.title=T[l].doc_title;
   document.getElementById('openBtn').setAttribute('aria-label',T[l].open_label);
   document.querySelectorAll('.lang button').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.l===l?'true':'false'); });
-  tick();
+  tick(); if(window.Music) Music.label();
   try{ localStorage.setItem('invite-lang',l); }catch(e){}
 }
 function setLang(l){
@@ -941,10 +980,155 @@ function startScroll(){
   update();
 }
 
+/* ---------- Music: bansuri flute over a tanpura drone, generated live ---------- */
+var Music=(function(){
+  var ctx=null, master=null, dry=null, wet=null, playing=false, userPaused=false, timer=null, next=0, step=0;
+  var btn=document.getElementById('musicBtn');
+  var EIGHTH=60/64/2, noiseBuf=null, prevF=0;
+  var N=[220,246.94,293.66,329.63,369.99,440,493.88,587.33,659.26,739.99,880];
+  var PH=[
+    [[4,2],[5,2],[6,2],[7,4],[6,2],[5,4]],
+    [[7,2],[6,1],[5,1],[4,2],[3,2],[4,4],[-1,4]],
+    [[2,2],[4,2],[5,2],[7,2],[8,3],[7,1],[6,4]],
+    [[6,2],[5,2],[4,2],[3,2],[2,6],[-1,2]],
+    [[5,1],[6,1],[7,2],[9,2],[8,2],[7,2],[5,2],[6,4]],
+    [[7,4],[-1,2],[5,2],[4,3],[3,1],[2,4]],
+    [[2,2],[4,2],[5,2],[7,2],[8,3],[7,1],[6,4]],
+    [[6,2],[5,2],[4,2],[3,2],[2,6],[-1,2]]
+  ];
+  var seq=[]; PH.forEach(function(ph,pi){ var t=0; ph.forEach(function(n){ seq.push({n:n[0],len:n[1],bar:t===0,pi:pi}); t+=n[1]; }); });
+  function impulse(){
+    var len=ctx.sampleRate*3.4, b=ctx.createBuffer(2,len,ctx.sampleRate);
+    for(var c=0;c<2;c++){ var d=b.getChannelData(c); for(var i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.8); }
+    return b;
+  }
+  function out(node,sendWet){ node.connect(dry); node.connect(wet); }
+  function pluck(f,t,v,dur){
+    var g=ctx.createGain(), lp=ctx.createBiquadFilter();
+    lp.type='lowpass'; lp.frequency.setValueAtTime(f*9,t); lp.frequency.exponentialRampToValueAtTime(f*2.2,t+dur*.7);
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+.004); g.gain.exponentialRampToValueAtTime(.0005,t+dur);
+    [[f,'triangle',1,-3],[f,'triangle',.8,4],[f*2,'sine',.35,2],[f*3,'sine',.12,0]].forEach(function(o){
+      var osc=ctx.createOscillator(), og=ctx.createGain();
+      osc.type=o[1]; osc.frequency.value=o[0]; osc.detune.value=o[3]; og.gain.value=o[2];
+      osc.connect(og); og.connect(lp); osc.start(t); osc.stop(t+dur+.05);
+    });
+    lp.connect(g); out(g);
+  }
+  function flute(f,t,dur,v){
+    var end=t+dur, rel=.45, glide=prevF && Math.abs(prevF/f-1)<.35 && t-lastEnd<.05;
+    var tone=ctx.createGain(), lp=ctx.createBiquadFilter(), amp=ctx.createGain();
+    lp.type='lowpass'; lp.frequency.value=Math.min(4200,f*6); lp.Q.value=.5;
+    amp.gain.setValueAtTime(0,t);
+    amp.gain.linearRampToValueAtTime(v*(glide?.9:.75),t+(glide?.04:.11));
+    amp.gain.linearRampToValueAtTime(v,t+Math.min(.35,dur*.5));
+    amp.gain.setValueAtTime(v*.92,Math.max(t+.12,end-.08));
+    amp.gain.exponentialRampToValueAtTime(.0004,end+rel);
+    var lfo=ctx.createOscillator(), lg=ctx.createGain();
+    lfo.frequency.value=5+Math.random()*.6; lg.gain.setValueAtTime(0,t);
+    if(dur>.6){ lg.gain.setValueAtTime(0,t+.28); lg.gain.linearRampToValueAtTime(f*.007,t+.75); }
+    lfo.connect(lg); lfo.start(t); lfo.stop(end+rel);
+    var kan = dur>=EIGHTH*3 && !glide;
+    [[1,'sine',1],[1,'triangle',.22],[2,'sine',.1],[3,'sine',.035]].forEach(function(h){
+      var o=ctx.createOscillator(), g=ctx.createGain(); o.type=h[1]; g.gain.value=h[2];
+      if(glide){ o.frequency.setValueAtTime(prevF*h[0],t); o.frequency.exponentialRampToValueAtTime(f*h[0],t+.09); }
+      else if(kan){ o.frequency.setValueAtTime(f*1.1225*h[0],t); o.frequency.setValueAtTime(f*1.1225*h[0],t+.05); o.frequency.exponentialRampToValueAtTime(f*h[0],t+.1); }
+      else o.frequency.setValueAtTime(f*h[0],t);
+      var vg=ctx.createGain(); vg.gain.value=h[0]; lg.connect(vg); vg.connect(o.frequency);
+      o.connect(g); g.connect(tone); o.start(t); o.stop(end+rel+.05);
+    });
+    tone.connect(lp); lp.connect(amp); out(amp);
+    var n=ctx.createBufferSource(), bp=ctx.createBiquadFilter(), ng=ctx.createGain();
+    n.buffer=noiseBuf; n.loop=true; bp.type='bandpass'; bp.frequency.value=f*2.2; bp.Q.value=1.2;
+    ng.gain.setValueAtTime(0,t); ng.gain.linearRampToValueAtTime(v*(glide?.05:.22),t+.03);
+    ng.gain.exponentialRampToValueAtTime(v*.05,t+.2); ng.gain.setValueAtTime(v*.05,Math.max(t+.21,end-.05));
+    ng.gain.exponentialRampToValueAtTime(.0003,end+rel*.6);
+    n.connect(bp); bp.connect(ng); out(ng); n.start(t,Math.random()); n.stop(end+rel);
+    prevF=f; lastEnd=end;
+  }
+  var lastEnd=0;
+  function tanpura(f,t){
+    var g=ctx.createGain(), lp=ctx.createBiquadFilter();
+    lp.type='lowpass'; lp.Q.value=5; lp.frequency.setValueAtTime(2600,t); lp.frequency.exponentialRampToValueAtTime(700,t+3.2);
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(.045,t+.06); g.gain.exponentialRampToValueAtTime(.0004,t+4.2);
+    [0,7,-5].forEach(function(dt){ var o=ctx.createOscillator(); o.type='sawtooth'; o.frequency.value=f; o.detune.value=dt; o.connect(lp); o.start(t); o.stop(t+4.3); });
+    lp.connect(g); out(g);
+  }
+  var TANP=[110,146.83,146.83,73.42], tb=0, tnext=0;
+  function schedule(){
+    var ahead=ctx.currentTime+.5;
+    while(tnext<ahead){ tanpura(TANP[tb%4],tnext); tb++; tnext+=EIGHTH*2.4; }
+    while(next<ahead){
+      var e=seq[step%seq.length];
+      if(e.n>=0) flute(N[e.n],next,e.len*EIGHTH-.02,.2);
+      else { prevF=0; }
+      next+=e.len*EIGHTH; step++;
+    }
+  }
+  function label(){
+    btn.setAttribute('aria-pressed',playing?'true':'false');
+    btn.setAttribute('aria-label',T[lang][playing?'music_on':'music_off']);
+    btn.classList.toggle('on',playing);
+  }
+  function fade(to,sec){ var t=ctx.currentTime; master.gain.cancelScheduledValues(t); master.gain.setValueAtTime(master.gain.value,t); master.gain.linearRampToValueAtTime(to,t+sec); }
+  var bgm=document.getElementById('bgm'), mode=null, trackOK=!!(bgm && bgm.canPlayType && bgm.canPlayType('audio/mpeg')), vt=null;
+  if(bgm){ bgm.addEventListener('error',function(){ trackOK=false; if(mode==='track'){ mode=null; synthStart(); } }); }
+  function vfade(to,sec,cb){
+    clearInterval(vt); var from=bgm.volume, t0=Date.now();
+    vt=setInterval(function(){ var k=Math.min(1,(Date.now()-t0)/(sec*1000)); try{ bgm.volume=from+(to-from)*k; }catch(e){} if(k>=1){ clearInterval(vt); if(cb) cb(); } },50);
+  }
+  function play(){
+    if(mode==='track'){ var pr=bgm.play(); playing=true; label(); vfade(1,2.5); if(pr&&pr.catch) pr.catch(function(){}); return; }
+    if(!ctx) return;
+    ctx.resume(); playing=true; label();
+    if(next<ctx.currentTime){ next=ctx.currentTime+.15; tnext=next; }
+    if(!timer) timer=setInterval(schedule,120);
+    fade(.85,3);
+  }
+  function pause(){
+    if(mode==='track'){ playing=false; label(); vfade(0,.6,function(){ if(!playing) bgm.pause(); }); return; }
+    if(!ctx) return;
+    playing=false; label(); fade(0,.6);
+    setTimeout(function(){ if(!playing){ clearInterval(timer); timer=null; ctx.suspend(); } },700);
+  }
+  function synthStart(){
+      try{
+        mode='synth';
+        var AC=window.AudioContext||window.webkitAudioContext; if(!AC) return;
+        ctx=new AC();
+        master=ctx.createGain(); master.gain.value=0;
+        var comp=ctx.createDynamicsCompressor(); master.connect(comp); comp.connect(ctx.destination);
+        dry=ctx.createGain(); dry.gain.value=.75; dry.connect(master);
+        var conv=ctx.createConvolver(); conv.buffer=impulse();
+        noiseBuf=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate); var nd=noiseBuf.getChannelData(0); for(var i=0;i<nd.length;i++) nd[i]=Math.random()*2-1;
+        wet=ctx.createGain(); wet.gain.value=.62; wet.connect(conv); conv.connect(master);
+        next=ctx.currentTime+.3; tnext=next;
+        play();
+      }catch(e){ ctx=null; }
+  }
+  return {
+    start:function(){
+      if(trackOK && bgm.error==null){
+        mode='track'; try{ bgm.volume=0; }catch(e){}
+        var pr=bgm.play(); playing=true; label(); vfade(1,2.5);
+        if(pr&&pr.catch) pr.catch(function(){ if(bgm.error){ mode=null; playing=false; synthStart(); } else { playing=false; label(); } });
+        return;
+      }
+      synthStart();
+    },
+    toggle:function(){ if(!mode){ this.start(); userPaused=false; return; } if(playing){ userPaused=true; pause(); } else { userPaused=false; play(); } },
+    hide:function(){ if(mode && playing){ pause(); } },
+    show:function(){ if(mode && !playing && !userPaused) play(); },
+    label:label
+  };
+})();
+document.getElementById('musicBtn').addEventListener('click',function(){ Music.toggle(); });
+document.addEventListener('visibilitychange',function(){ if(document.hidden) Music.hide(); else Music.show(); });
+
 /* ---------- Open ---------- */
 document.getElementById('openBtn').addEventListener('click',function(){
   var cover=document.getElementById('cover'); if(cover.classList.contains('open')) return;
   cover.classList.add('open');
+  Music.start();
   try{ if(navigator.vibrate) navigator.vibrate(18); }catch(e){}
   setTimeout(function(){ Petals.burst(); }, reduce?0:500);
   setTimeout(function(){ document.body.classList.add('live'); document.getElementById('heroCrest').classList.add('on'); }, reduce?0:1300);
